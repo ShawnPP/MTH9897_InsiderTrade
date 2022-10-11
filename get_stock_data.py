@@ -62,4 +62,66 @@ class GetStockData:
 
         return res
 
-    
+
+import pandas as pd
+import numpy as np
+import datetime as dt
+import wrds
+import os
+import matplotlib.pyplot as plt
+from dateutil.relativedelta import *
+from pandas.tseries.offsets import *
+from scipy import stats
+
+username = "mth989722"
+password = "SystTrade2022"
+conn = wrds.Connection(wrds_username='mth989722')
+
+import bs4 as bs
+import requests
+import yfinance as yf
+import datetime
+from sec_edgar_downloader import Downloader
+resp = requests.get('http://en.wikipedia.org/wiki/List_of_S%26P_500_companies')
+soup = bs.BeautifulSoup(resp.text, 'lxml')
+table = soup.find('table', {'class': 'wikitable sortable'})
+
+sp500_tickers = []
+
+for row in table.findAll('tr')[1:]:
+    ticker = row.findAll('td')[0].text
+    sp500_tickers.append(ticker)
+sp500_tickers = [s.replace("\n", "") for s in sp500_tickers]
+
+import time
+from tqdm import tqdm
+from multiprocessing import Pool
+
+if not os.path.exists("./stock_data"):
+    os.mkdir("./stock_data")
+
+def download_edgar_data(ticker):
+    try:
+        dl = Downloader("./")
+        
+        if not os.path.exists(f'./stock_data/{ticker}.csv'):
+            print('-----Start downloading ', ticker)
+            data = GetStockData._get_stock_data(conn=conn, ticker=ticker, startdate='01/01/2018', enddate='12/31/2021')
+            if not data is None:
+                dl.get("4", ticker, after="2018-01-01", before="2021-12-31")
+                data.to_csv(f"./stock_data/{ticker}.csv")
+                time.sleep(15)
+            print('-----End downloading ', ticker)
+        return None
+    except Exception as e: 
+        print("Error ticker: ", ticker, ", error: ", e)
+        time.sleep(15)
+        return None
+
+if __name__ == "__main__":
+
+    # download_edgar_data(sp500_tickers[-1])
+    with Pool(3) as p:
+        with tqdm(total=len(sp500_tickers)) as pbar:
+            for _ in p.imap_unordered(download_edgar_data, sp500_tickers):
+                pbar.update()
