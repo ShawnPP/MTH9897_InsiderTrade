@@ -21,7 +21,7 @@ class GetStockData:
         """
         data_raw = conn.raw_sql(f"""
                       select a.permno, a.permco, a.date, b.shrcd, b.exchcd, b.ticker,
-                      a.ret, a.retx, a.shrout, a.prc, a.cfacshr, a.openprc, a.vol, a.askhi, a.bidlo
+                      a.ret, a.retx, a.shrout, a.prc, a.cfacpr, a.openprc, a.vol, a.askhi, a.bidlo
                       from crsp.dsf as a
                       left join crsp.msenames as b
                       on a.permno=b.permno
@@ -37,19 +37,19 @@ class GetStockData:
             return None
 
         #adjust prices
-        data_raw['openprc'] = data_raw.eval('openprc/cfacshr') 
-        data_raw['prc'] = data_raw.eval('prc/cfacshr') 
-        data_raw['askhi'] = data_raw.eval('askhi/cfacshr') 
-        data_raw['bidlo'] = data_raw.eval('bidlo/cfacshr') 
+        data_raw['openprc'] = data_raw.eval('openprc/cfacpr') 
+        data_raw['prc'] = data_raw.eval('prc/cfacpr') 
+        data_raw['askhi'] = data_raw.eval('askhi/cfacpr') 
+        data_raw['bidlo'] = data_raw.eval('bidlo/cfacpr') 
 
-        data = data_raw[['date', 'ticker', 'openprc', 'askhi', 'bidlo', 'prc', 'vol', 'cfacshr']]
+        data = data_raw[['date', 'ticker', 'openprc', 'askhi', 'bidlo', 'prc', 'vol', 'cfacpr']]
         data = data.rename(columns = {
             "openprc": "open", 
             "askhi": "high",
             "bidlo": "low",
             "prc": "close",
             'vol': "volume",
-            'cfacshr': "adj_factor"
+            'cfacpr': "adj_factor"
         })
         return data.set_index("date")
 
