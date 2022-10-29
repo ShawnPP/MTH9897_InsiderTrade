@@ -15,3 +15,5 @@ Data link:
 **bt_stock_data_forward**(merge edgar data and stock data by transaction date instead of report date): https://drive.google.com/file/d/1k2b5D-GG9TXUtGegUxAKwd-kwHkud_tI/view?usp=share_link  
 **bt_stock_data_industry_neutral**: https://drive.google.com/file/d/1WCM_myc0EhbVKWaTxYrYKBnRcmUP44Ci/view?usp=share_link  
 
+## 4. Presentation Slides
+**Link**: https://docs.google.com/presentation/d/1U1pwXKoHRNWVRzSCHkFlm1Dwz1zGO44SqZHk3PBLoX0/edit?usp=sharing
