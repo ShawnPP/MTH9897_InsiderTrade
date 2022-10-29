@@ -7,7 +7,8 @@ Download stock data from WRDS and EDGAR data from sec_edgar_downloader for SP500
 Turn sec filing data to numerical dataframe.
 
 ## 3. backtrader_backtesting.ipynb
-Backtest your own strategy by backtrader. Feed all csv files in bt_stock_data_dir into backtester.  
+Backtest your own strategy by backtrader. Feed all csv files in bt_stock_data_dir into backtester. You can just run this scripy if you don't want to start from downloadig data. You can download bt_stock_data_*, and change bt_stock_data_dir in backtrader_backtesting.ipynb as your data path. Then you just need to start backtrader.
+  
 Data link:  
 **sec-edgar-filings**: https://drive.google.com/file/d/1NUy_CIG5R-F6iK6vrtuwiSXN07K-vwW1/view?usp=share_link  
 **stock_data**: https://drive.google.com/file/d/1B1az42hh-Tw-mzb9iHSmtjL5DTA3eBKz/view?usp=share_link  
